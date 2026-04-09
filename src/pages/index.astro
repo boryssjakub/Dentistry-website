@@ -1,11 +1,509 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Welcome />
+
+
+
+<canvas id="grain"></canvas>
+
+<div id="loader">
+  <div id="ldr-content">
+    <div id="ldr-logo">
+      <span class="ll">D</span><span class="ll">E</span><span class="ll">N</span>
+      <span class="ll">T</span><span class="ll">A</span><span class="ll">L</span>
+    </div>
+    <div id="ldr-tag">PREMIER CARE — BIAŁYSTOK</div>
+    <div id="ldr-counter">
+      <span id="ldr-num">0</span><span id="ldr-pct">%</span>
+    </div>
+    <div id="ldr-bar-wrap"><div id="ldr-bar"></div></div>
+  </div>
+  <div id="ldr-curtain-l"></div>
+  <div id="ldr-curtain-r"></div>
+</div>
+
+<section id="hero">
+
+  <!-- WebGL liquid shader canvas -->
+  <canvas id="gl-canvas"></canvas>
+
+  <!-- Overlays above WebGL -->
+  <div id="bg-vignette"></div>
+  <div id="bg-scanlines"></div>
+
+  <nav id="nav">
+    <a href="/" id="nav-logo">
+      <span class="logo-mark">✦</span>
+      <span class="logo-wordmark">Dental<em>Clinic</em></span>
+    </a>
+    <ul id="nav-links">
+      <li><a href="#" class="nl">About</a></li>
+      <li><a href="#" class="nl">Services</a></li>
+      <li><a href="#" class="nl">Gallery</a></li>
+      <li><a href="#" class="nl">Contact</a></li>
+    </ul>
+    <a href="#" id="nav-cta">Book a Visit</a>
+  </nav>
+
+  <div id="hero-body">
+    <div id="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      <span>Est. 2010 — Białystok, Poland</span>
+      <div class="eyebrow-line"></div>
+    </div>
+    <h1 id="hero-title">
+      <div class="tr">
+        <div class="tm"><span class="tw">Your</span></div>
+        <div class="tm ti"><span class="tw">Perfect</span></div>
+      </div>
+      <div class="tr">
+        <div class="tm to"><span class="tw">Smile</span></div>
+      </div>
+      <div class="tr">
+        <div class="tm"><span class="tw">Starts</span></div>
+        <div class="tm tg"><span class="tw">Here.</span></div>
+      </div>
+    </h1>
+    <div id="hero-bar">
+      <p id="hero-sub">World-class dental care<br/>with a gentle human touch.</p>
+      <div id="hero-stats">
+        <div class="hs"><div class="hs-n">15+</div><div class="hs-l">Years</div></div>
+        <div class="hs-div"></div>
+        <div class="hs"><div class="hs-n">5k+</div><div class="hs-l">Patients</div></div>
+        <div class="hs-div"></div>
+        <div class="hs"><div class="hs-n">12</div><div class="hs-l">Specialists</div></div>
+      </div>
+      <a href="#" id="hero-btn">
+        <span>Book a Visit</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M2 8H14M14 8L9 3M14 8L9 13" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <div id="marquee">
+    <div id="marquee-track">
+      <span class="mi">SMILE ✦</span><span class="mi">CONFIDENCE ✦</span>
+      <span class="mi">EXCELLENCE ✦</span><span class="mi">CARE ✦</span>
+      <span class="mi">PRECISION ✦</span><span class="mi">COMFORT ✦</span>
+      <span class="mi">SMILE ✦</span><span class="mi">CONFIDENCE ✦</span>
+      <span class="mi">EXCELLENCE ✦</span><span class="mi">CARE ✦</span>
+      <span class="mi">PRECISION ✦</span><span class="mi">COMFORT ✦</span>
+    </div>
+  </div>
+
+  <div id="side-l">
+    <span class="side-txt">PREMIER DENTAL CARE</span>
+    <div class="side-line"></div>
+  </div>
+  <div id="side-r">
+    <div class="side-line"></div>
+    <div id="scroll-rail"><div id="scroll-thumb"></div></div>
+    <span class="side-txt">SCROLL</span>
+  </div>
+
+  <div id="hero-corner-bl"><span>48.24°N / 22.31°E</span></div>
+  <div id="hero-corner-br"><span id="live-time">00:00:00</span></div>
+
+</section>
+
+<section id="statement">
+  <div id="statement-inner">
+    <div id="stmt-label">Our Philosophy</div>
+    <p id="stmt-text">
+      We believe great dental care is about more than just teeth —
+      it is about <em>confidence</em>, <em>comfort</em>, and <em>trust</em>.
+    </p>
+  </div>
+</section>
+
 </Layout>
+
+<style>
+
+#grain{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9998;opacity:.04;}
+
+#loader{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+#ldr-curtain-l,#ldr-curtain-r{position:absolute;top:0;bottom:0;width:50%;background:#080808;z-index:1;}
+#ldr-curtain-l{left:0;}#ldr-curtain-r{right:0;}
+#ldr-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:2rem;}
+#ldr-logo{display:flex;gap:.1em;font-family:'Playfair Display',serif;font-size:clamp(2.5rem,8vw,6rem);font-weight:700;letter-spacing:.5em;color:#F0ECE4;}
+.ll{display:inline-block;opacity:0;transform:translateY(50px) rotate(8deg);}
+#ldr-tag{font-size:.62rem;letter-spacing:.45em;text-transform:uppercase;color:rgba(200,169,110,.65);opacity:0;}
+#ldr-counter{font-family:'Playfair Display',serif;font-size:clamp(4rem,13vw,9rem);font-weight:400;color:#C8A96E;line-height:1;letter-spacing:-.03em;display:flex;align-items:flex-start;}
+#ldr-pct{font-size:.38em;margin-top:.28em;opacity:.45;}
+#ldr-bar-wrap{width:280px;height:1px;background:rgba(240,236,228,.1);overflow:hidden;}
+#ldr-bar{height:100%;width:0%;background:linear-gradient(90deg,transparent,#C8A96E);}
+
+#hero{position:relative;width:100%;height:100vh;min-height:680px;display:flex;flex-direction:column;overflow:hidden;background:#080808;}
+
+#gl-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:1;display:block;}
+
+#bg-vignette{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse 80% 85% at 50% 50%,transparent 20%,rgba(8,8,8,.82) 100%);}
+#bg-scanlines{position:absolute;inset:0;pointer-events:none;z-index:3;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.022) 2px,rgba(0,0,0,.022) 4px);}
+
+#nav{position:absolute;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:2.2rem 4rem;opacity:0;}
+#nav-logo{display:flex;align-items:center;gap:.75rem;text-decoration:none;}
+.logo-mark{font-size:1.1rem;color:#C8A96E;}
+.logo-wordmark{font-family:'Playfair Display',serif;font-size:1rem;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:#F0ECE4;}
+.logo-wordmark em{font-style:italic;font-size:.78rem;letter-spacing:.28em;opacity:.55;display:block;margin-top:-2px;}
+#nav-links{display:flex;gap:3rem;list-style:none;}
+.nl{color:rgba(240,236,228,.6);text-decoration:none;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;position:relative;transition:color .3s;}
+.nl::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:#C8A96E;transition:width .4s cubic-bezier(.25,1,.5,1);}
+.nl:hover{color:#F0ECE4;}.nl:hover::after{width:100%;}
+#nav-cta{color:#C8A96E;text-decoration:none;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;border:1px solid rgba(200,169,110,.38);padding:.65rem 1.5rem;transition:background .4s,color .4s;}
+#nav-cta:hover{background:#C8A96E;color:#080808;}
+
+#hero-body{position:relative;z-index:10;flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:0 4rem 2rem;gap:2rem;}
+#hero-eyebrow{display:flex;align-items:center;gap:1rem;font-size:.63rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(200,169,110,.8);opacity:0;transform:translateY(14px);}
+.eyebrow-line{flex:0 0 36px;height:1px;background:rgba(200,169,110,.35);}
+
+#hero-title{display:flex;flex-direction:column;gap:0;}
+.tr{display:flex;align-items:baseline;gap:.28em;line-height:1;}
+.tm{overflow:hidden;}
+.tw{display:block;font-family:'Playfair Display',serif;font-size:clamp(4.5rem,11.5vw,11rem);font-weight:700;color:#F0ECE4;letter-spacing:-.025em;line-height:.9;transform:translateY(112%);will-change:transform;}
+.ti .tw{font-style:italic;font-weight:400;color:rgba(240,236,228,.7);}
+.to .tw{-webkit-text-stroke:2px #F0ECE4;color:transparent;}
+.tg .tw{color:#C8A96E;}
+
+#hero-bar{display:flex;align-items:center;justify-content:space-between;padding-top:1.6rem;border-top:1px solid rgba(240,236,228,.1);opacity:0;transform:translateY(22px);}
+#hero-sub{font-size:.82rem;font-weight:300;line-height:1.85;color:rgba(240,236,228,.48);letter-spacing:.04em;}
+#hero-stats{display:flex;align-items:center;gap:2.2rem;}
+.hs{text-align:center;}
+.hs-n{font-family:'Playfair Display',serif;font-size:2rem;font-weight:400;color:#C8A96E;line-height:1;}
+.hs-l{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,236,228,.38);margin-top:.35rem;}
+.hs-div{width:1px;height:38px;background:rgba(240,236,228,.1);}
+#hero-btn{display:flex;align-items:center;gap:.85rem;color:#F0ECE4;text-decoration:none;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;padding:1.1rem 2.4rem;border:1px solid rgba(240,236,228,.2);position:relative;overflow:hidden;transition:color .5s,gap .5s;}
+#hero-btn::before{content:'';position:absolute;inset:0;background:#C8A96E;transform:scaleX(0);transform-origin:left;transition:transform .55s cubic-bezier(.77,0,.18,1);}
+#hero-btn:hover::before{transform:scaleX(1);}
+#hero-btn:hover{color:#080808;gap:1.5rem;}
+#hero-btn span,#hero-btn svg{position:relative;z-index:1;}
+
+#marquee{position:relative;z-index:20;overflow:hidden;border-top:1px solid rgba(240,236,228,.07);background:rgba(8,8,8,.5);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding:.88rem 0;opacity:0;}
+#marquee-track{display:flex;white-space:nowrap;animation:marqueeRun 22s linear infinite;}
+.mi{font-size:.6rem;letter-spacing:.42em;text-transform:uppercase;color:rgba(240,236,228,.28);padding:0 1.8rem;flex-shrink:0;}
+@keyframes marqueeRun{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+#side-l,#side-r{position:absolute;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:1rem;z-index:30;opacity:0;}
+#side-l{left:1.5rem;}#side-r{right:1.5rem;}
+.side-txt{writing-mode:vertical-rl;font-size:.5rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(240,236,228,.28);}
+.side-line{width:1px;height:80px;background:rgba(240,236,228,.1);}
+#scroll-rail{width:1px;height:65px;background:rgba(240,236,228,.1);position:relative;overflow:hidden;}
+#scroll-thumb{position:absolute;top:-45%;width:100%;height:45%;background:linear-gradient(to bottom,transparent,#C8A96E);animation:scrollDrop 2.2s cubic-bezier(.4,0,.6,1) infinite;}
+@keyframes scrollDrop{0%{top:-45%;opacity:0;}25%{opacity:1;}100%{top:145%;opacity:0;}}
+
+#hero-corner-bl,#hero-corner-br{position:absolute;bottom:5rem;z-index:30;font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(240,236,228,.25);opacity:0;}
+#hero-corner-bl{left:4rem;}#hero-corner-br{right:4rem;}
+
+#statement{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:10rem 4rem;background:#080808;}
+#statement-inner{max-width:960px;text-align:center;}
+#stmt-label{font-size:.62rem;letter-spacing:.42em;text-transform:uppercase;color:rgba(200,169,110,.7);margin-bottom:3rem;opacity:0;transform:translateY(16px);}
+#stmt-text{font-family:'Playfair Display',serif;font-size:clamp(2rem,4.5vw,4.5rem);font-weight:400;line-height:1.28;color:rgba(240,236,228,.88);opacity:0;transform:translateY(48px);}
+#stmt-text em{font-style:italic;color:#C8A96E;}
+</style>
+
+<script>
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
+
+gsap.registerPlugin(ScrollTrigger);
+
+/* ── GRAIN ── */
+const grainCanvas = document.getElementById('grain') as HTMLCanvasElement;
+const gCtx = grainCanvas.getContext('2d')!;
+function resizeGrain(){ grainCanvas.width=window.innerWidth; grainCanvas.height=window.innerHeight; }
+resizeGrain(); window.addEventListener('resize', resizeGrain);
+let gf=0;
+(function tg(){ if(++gf%2===0){ const w=grainCanvas.width,h=grainCanvas.height,img=gCtx.createImageData(w,h),d=img.data; for(let i=0;i<d.length;i+=4){const v=(Math.random()*255)|0;d[i]=d[i+1]=d[i+2]=v;d[i+3]=255;} gCtx.putImageData(img,0,0); } requestAnimationFrame(tg); })();
+
+/* ── CLOCK ── */
+const timeEl = document.getElementById('live-time')!;
+const pad = (n:number)=>String(n).padStart(2,'0');
+function tick(){ const n=new Date(); timeEl.textContent=`${pad(n.getHours())}:${pad(n.getMinutes())}:${pad(n.getSeconds())}`; }
+tick(); setInterval(tick,1000);
+
+
+/* ── LENIS ── */
+const lenis=new Lenis({ duration:1.65, easing:(t:number)=>Math.min(1,1.001-Math.pow(2,-10*t)) });
+lenis.on('scroll',ScrollTrigger.update);
+gsap.ticker.add((time)=>lenis.raf(time*1000));
+gsap.ticker.lagSmoothing(0);
+
+/* ── LOADER ── */
+const cObj={val:0};
+const ldrNum=document.getElementById('ldr-num')!;
+const ldrEl=document.getElementById('loader')!;
+const ldrTl=gsap.timeline({onComplete:()=>{ldrEl.style.display='none';}});
+ldrTl
+  .to('.ll',{opacity:1,y:0,rotate:0,duration:.75,stagger:.07,ease:'power3.out'})
+  .to('#ldr-tag',{opacity:1,duration:.5,ease:'power2.out'},'-=.3')
+  .to(cObj,{val:100,duration:1.7,ease:'power2.inOut',onUpdate(){ldrNum.textContent=String(Math.round(cObj.val));}},'-=.1')
+  .to('#ldr-bar',{width:'100%',duration:1.7,ease:'power2.inOut'},'<')
+  .to('#ldr-content',{opacity:0,duration:.35,ease:'power2.in'},'+=.25')
+  .to('#ldr-curtain-l',{xPercent:-100,duration:1.1,ease:'power4.inOut'},'-=.1')
+  .to('#ldr-curtain-r',{xPercent:100,duration:1.1,ease:'power4.inOut'},'<');
+
+/* ── HERO ENTRANCE ── */
+gsap.timeline({delay:3.1})
+  .to('#nav',{opacity:1,duration:1,ease:'power3.out'})
+  .to('#hero-eyebrow',{opacity:1,y:0,duration:.85,ease:'power3.out'},'-=.65')
+  .to('.tw',{y:'0%',duration:1.25,stagger:.1,ease:'power4.out'},'-=.6')
+  .to('#hero-bar',{opacity:1,y:0,duration:1,ease:'power3.out'},'-=.5')
+  .to('#marquee',{opacity:1,duration:.8,ease:'power2.out'},'-=.5')
+  .to('#side-l,#side-r',{opacity:1,duration:.7},'-=.5')
+  .to('#hero-corner-bl,#hero-corner-br',{opacity:1,duration:.7},'-=.4');
+
+/* ── SCROLL ── */
+gsap.to('#hero-body',{yPercent:18,opacity:0,ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'55% top',scrub:1.2}});
+gsap.to('#stmt-label',{opacity:1,y:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:'#statement',start:'top 72%'}});
+gsap.to('#stmt-text',{opacity:1,y:0,duration:1.4,ease:'power3.out',scrollTrigger:{trigger:'#statement',start:'top 68%'}});
+
+/* ════════════════════════════════════════════════════════
+   WEBGL LIQUID DISTORTION SHADER
+════════════════════════════════════════════════════════ */
+const glCanvas = document.getElementById('gl-canvas') as HTMLCanvasElement;
+const gl = glCanvas.getContext('webgl',{alpha:false,antialias:false,powerPreference:'high-performance'});
+
+if (gl) {
+
+  /* ── Vertex shader ── */
+  const VERT = `
+    attribute vec2 aPos;
+    varying vec2 vUv;
+    void main(){
+      vUv = aPos * .5 + .5;
+      gl_Position = vec4(aPos, 0., 1.);
+    }
+  `;
+
+  /* ── Fragment shader ── */
+  const FRAG = `
+    precision highp float;
+
+    uniform sampler2D uTex1;   /* dentist */
+    uniform sampler2D uTex2;   /* smile   */
+    uniform vec2  uMouse;      /* 0..1 UV */
+    uniform vec2  uVel;        /* velocity */
+    uniform float uRadius;     /* 0..1     */
+    uniform float uTime;
+    uniform vec2  uRes;
+    uniform float uScroll;     /* 0..1     */
+
+    varying vec2 vUv;
+
+    /* ── Simplex 2D noise ── */
+    vec3 m289(vec3 x){return x-floor(x*(1./289.))*289.;}
+    vec2 m289(vec2 x){return x-floor(x*(1./289.))*289.;}
+    vec3 prm(vec3 x){return m289(((x*34.)+1.)*x);}
+    float snoise(vec2 v){
+      const vec4 C=vec4(.211324865405187,.366025403784439,-.577350269189626,.024390243902439);
+      vec2 i=floor(v+dot(v,C.yy)); vec2 x0=v-i+dot(i,C.xx);
+      vec2 i1=(x0.x>x0.y)?vec2(1.,0.):vec2(0.,1.);
+      vec4 x12=x0.xyxy+C.xxzz; x12.xy-=i1; i=m289(i);
+      vec3 p=prm(prm(i.y+vec3(0.,i1.y,1.))+i.x+vec3(0.,i1.x,1.));
+      vec3 m=max(.5-vec3(dot(x0,x0),dot(x12.xy,x12.xy),dot(x12.zw,x12.zw)),0.);
+      m=m*m; m=m*m;
+      vec3 x2=2.*fract(p*C.www)-1.; vec3 h=abs(x2)-.5;
+      vec3 ox=floor(x2+.5); vec3 a0=x2-ox;
+      m*=1.79284291400159-.85373472095314*(a0*a0+h*h);
+      vec3 g; g.x=a0.x*x0.x+h.x*x0.y; g.yz=a0.yz*x12.xz+h.yz*x12.yw;
+      return 130.*dot(m,g);
+    }
+
+    /* ── Object-fit: cover UV ── */
+    vec2 cover(vec2 uv, float ia, float ca){
+      float sx=1.,sy=1.;
+      if(ca>ia) sy=ia/ca; else sx=ca/ia;
+      return (uv-.5)/vec2(sx,sy)+.5;
+    }
+
+    void main(){
+      vec2 uv  = vUv;
+      float ca = uRes.x/uRes.y;
+
+      /* Cover UVs — landscape images ~3:2 */
+      vec2 uv1 = cover(uv, 1.5, ca);
+      vec2 uv2 = cover(uv, 1.5, ca);
+
+      /* Scroll parallax */
+      uv1.y += uScroll * .14;
+      uv2.y += uScroll * .08;
+
+      /* Aspect-corrected mouse distance */
+      vec2 diff  = (uv - uMouse) * vec2(ca, 1.);
+      float dist = length(diff);
+      float vel  = length(uVel);
+
+      /* ── Liquid edge noise ── */
+      float ang = atan(diff.y, diff.x);
+      float amp = .024 + vel * .20;
+
+      float n = snoise(vec2(ang*5.0,    uTime*.65)) * amp
+              + snoise(vec2(ang*11.+1.7, uTime*1.1)) * amp*.5
+              + snoise(vec2(ang*2.3-0.9, uTime*.35)) * amp*.3;
+
+      /* World-space ripple from velocity */
+      float ripple = snoise(uv*8. - uTime*.5 + vel*3.) * vel * .03;
+      n += ripple;
+
+      float dDist = dist + n;
+
+      /* Smooth circle */
+      float edgeW = .010 + amp*.9;
+      float circle = 1.-smoothstep(uRadius-edgeW, uRadius+edgeW, dDist);
+
+      /* Displacement at edge */
+      float em = smoothstep(uRadius-.07, uRadius, dDist)
+               * (1.-smoothstep(uRadius, uRadius+.07, dDist));
+
+      float dn = snoise(uv*5.+uTime*.4)*.5
+               + snoise(uv*10.-uTime*.3)*.25;
+      vec2 dir  = length(diff)>.001 ? normalize(diff) : vec2(0.);
+      vec2 disp = (dir*.018 + vec2(dn*.012)) * em * (1.+vel*5.);
+
+      /* Sample both textures */
+      vec4 c1 = texture2D(uTex1, clamp(uv1+disp*(1.-circle),.001,.999));
+      vec4 c2 = texture2D(uTex2, clamp(uv2-disp*circle,      .001,.999));
+      c1.rgb *= .70;  /* darken base */
+
+      vec4 color = mix(c1, c2, circle);
+
+      /* Gold glow at edge */
+      float g1 = smoothstep(uRadius-.006,uRadius,dDist)*(1.-smoothstep(uRadius,uRadius+.006,dDist));
+      float g2 = smoothstep(uRadius-.002,uRadius,dDist)*(1.-smoothstep(uRadius,uRadius+.002,dDist))*2.5;
+      float glow = (g1+g2) * (1.+vel*3.) * min(uRadius*12.,1.);
+      color.rgb += glow * vec3(.784,.663,.431);
+
+      /* Vignette inside circle for depth */
+      float innerVig = (1.-smoothstep(.0,.3,dist/max(uRadius,.001))) * circle * .25;
+      color.rgb *= (1.-innerVig);
+
+      gl_FragColor = color;
+    }
+  `;
+
+  /* ── Compile helper ── */
+  function compile(type:number, src:string){
+    const s=gl.createShader(type)!;
+    gl.shaderSource(s,src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)) console.error(gl.getShaderInfoLog(s));
+    return s;
+  }
+
+  const prog=gl.createProgram()!;
+  gl.attachShader(prog,compile(gl.VERTEX_SHADER,VERT));
+  gl.attachShader(prog,compile(gl.FRAGMENT_SHADER,FRAG));
+  gl.linkProgram(prog); gl.useProgram(prog);
+
+  /* ── Fullscreen quad ── */
+  const buf=gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+  const aPos=gl.getAttribLocation(prog,'aPos');
+  gl.enableVertexAttribArray(aPos);
+  gl.vertexAttribPointer(aPos,2,gl.FLOAT,false,0,0);
+
+  /* ── Uniforms ── */
+  const U={
+    tex1:  gl.getUniformLocation(prog,'uTex1'),
+    tex2:  gl.getUniformLocation(prog,'uTex2'),
+    mouse: gl.getUniformLocation(prog,'uMouse'),
+    vel:   gl.getUniformLocation(prog,'uVel'),
+    radius:gl.getUniformLocation(prog,'uRadius'),
+    time:  gl.getUniformLocation(prog,'uTime'),
+    res:   gl.getUniformLocation(prog,'uRes'),
+    scroll:gl.getUniformLocation(prog,'uScroll'),
+  };
+
+  /* ── Texture helper ── */
+  function makeTex(unit:number):WebGLTexture{
+    const t=gl.createTexture()!;
+    gl.activeTexture(gl.TEXTURE0+unit);
+    gl.bindTexture(gl.TEXTURE_2D,t);
+    gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array([10,10,10,255]));
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+    return t;
+  }
+
+  function loadTex(url:string, unit:number, tex:WebGLTexture){
+    const img=new Image(); img.crossOrigin='anonymous';
+    img.onload=()=>{
+      gl.activeTexture(gl.TEXTURE0+unit);
+      gl.bindTexture(gl.TEXTURE_2D,tex);
+      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);
+      gl.generateMipmap(gl.TEXTURE_2D);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);
+    };
+    img.src=url;
+  }
+
+  const tex1=makeTex(0), tex2=makeTex(1);
+  /* IMAGE 1 — dentist / clinic photo */
+  loadTex('https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=1800&q=85',0,tex1);
+  /* IMAGE 2 — perfect smile (revealed on hover) */
+  loadTex('https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=1800&q=85',1,tex2);
+  gl.uniform1i(U.tex1,0); gl.uniform1i(U.tex2,1);
+
+  /* ── Resize ── */
+  function resizeGL(){
+    const h=document.getElementById('hero')!;
+    const w=h.clientWidth, ht=h.clientHeight;
+    glCanvas.width=w; glCanvas.height=ht;
+    gl.viewport(0,0,w,ht);
+    gl.uniform2f(U.res,w,ht);
+  }
+  resizeGL(); window.addEventListener('resize',resizeGL);
+
+  /* ── State ── */
+  let mX=.5,mY=.5, tmX=.5,tmY=.5;
+  let vX=0,vY=0, pmX=.5,pmY=.5;
+  let radius=0, tRadius=0;
+  let scrollProg=0;
+  const hero=document.getElementById('hero')!;
+
+  hero.addEventListener('mousemove',e=>{
+    const r=hero.getBoundingClientRect();
+    tmX=(e.clientX-r.left)/r.width;
+    tmY=1.-(e.clientY-r.top)/r.height; /* flip Y for GL */
+  });
+  hero.addEventListener('mouseenter',()=>{ tRadius=.22; });
+  hero.addEventListener('mouseleave',()=>{ tRadius=0; });
+
+  /* Collapse circle on scroll */
+  ScrollTrigger.create({
+    trigger:'#hero', start:'top top', end:'bottom top',
+    onUpdate:self=>{ scrollProg=self.progress; tRadius=self.progress>.1?0:.22; }
+  });
+
+  /* ── Render ── */
+  const t0=performance.now();
+  (function frame(){
+    const t=(performance.now()-t0)*.001;
+
+    /* Smooth mouse */
+    mX+=(tmX-mX)*.065; mY+=(tmY-mY)*.065;
+
+    /* Velocity */
+    vX=(mX-pmX)*30; vY=(mY-pmY)*30;
+    pmX=mX; pmY=mY;
+
+    /* Smooth radius */
+    radius+=(tRadius-radius)*.055;
+
+    gl.uniform2f(U.mouse,mX,mY);
+    gl.uniform2f(U.vel,vX,vY);
+    gl.uniform1f(U.radius,radius);
+    gl.uniform1f(U.time,t);
+    gl.uniform1f(U.scroll,scrollProg);
+    gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+    requestAnimationFrame(frame);
+  })();
+}
+</script>
