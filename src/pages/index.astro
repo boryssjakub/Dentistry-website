@@ -1070,7 +1070,7 @@ import Layout from '../layouts/Layout.astro';
   }
 
   /* FOOTER CTA */
-  #fcta {
+  #final-cta {
     padding: 4rem 2rem;
     text-align: center;
   }
@@ -1078,13 +1078,8 @@ import Layout from '../layouts/Layout.astro';
     font-size: 0.55rem;
     margin-bottom: 2rem;
   }
-  #fcta-title {
+  #fcta-heading {
     font-size: clamp(2rem, 6vw, 4rem);
-    text-align: center;
-  }
-  #fcta-sub {
-    font-size: 0.8rem;
-    margin-bottom: 3rem;
     text-align: center;
   }
   #fcta-btn {
@@ -1160,7 +1155,6 @@ gsap.to('#stmt-text',{opacity:1,y:0,duration:1.4,ease:'power3.out',scrollTrigger
    SERVICES HORIZONTAL SCROLL
 ══════════════════════════════════════════════ */
 const svcTrack = document.getElementById('svc-track')!;
-const svcWrap  = document.getElementById('svc-wrap')!;
 const progBar  = document.getElementById('svc-prog-bar')!;
 const svcCur   = document.getElementById('svc-cur')!;
 const panels   = document.querySelectorAll('.s-panel');
@@ -1244,9 +1238,10 @@ gsap.to('#fcta-btn',{opacity:1,y:0,duration:.9,ease:'power3.out',scrollTrigger:{
    WEBGL LIQUID DISTORTION
 ══════════════════════════════════════════════ */
 const glCanvas=document.getElementById('gl-canvas') as HTMLCanvasElement;
-const gl=glCanvas.getContext('webgl',{alpha:false,antialias:false,powerPreference:'high-performance'});
+const glMaybe=glCanvas.getContext('webgl',{alpha:false,antialias:false,powerPreference:'high-performance'});
 
-if(gl){
+if(glMaybe){
+const gl=glMaybe;
 const VERT=`attribute vec2 aPos;varying vec2 vUv;void main(){vUv=aPos*.5+.5;gl_Position=vec4(aPos,0.,1.);}`;
 const FRAG=`
 precision highp float;
@@ -1298,7 +1293,7 @@ void main(){
   float em=smoothstep(uRadius-.07,uRadius,dDist)*(1.-smoothstep(uRadius,uRadius+.07,dDist));
   float dn=snoise(uv*5.+uTime*.4)*.5+snoise(uv*10.-uTime*.3)*.25;
   vec2 dir=length(diff)>.001?normalize(diff):vec2(0.);
-  vec2 disp=(dir*.018+vec2(dn*.012))*em*(1.+vel*5.);
+  vec2 disp=(dir*.018+vec2(n*.012))*em*(1.+vel*5.);
   vec4 c1=texture2D(uTex1,clamp(uv1+disp*(1.-circle),.001,.999));
   vec4 c2=texture2D(uTex2,clamp(uv2-disp*circle,.001,.999));
   c1.rgb*=.70;
